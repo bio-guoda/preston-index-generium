@@ -10,21 +10,21 @@ function track_corpus {
   | xargs preston track
 }
 
-function align_names {
+function align_mammal_names {
  preston ls\
   | grep hash\
+  | grep mammalia\
   | preston grep -l tsv ".*"\
   | grep "#value"\
-  | cut -f1,3-\
+  | cut -f3-\
   | sed 's/./\u&/'\
   | sed 's/^/\t/g'\
   | nomer append --include-header itis\
-  | mlr --itsvlite --ocsv cat\
   | gzip\
-  > pubs-with-taxonnames.csv.gz
+  > pubs-with-taxonnames.tsv.gz
 }
 
-track_corpus
-align_names
+#track_corpus
+align_mammal_names
 
 
