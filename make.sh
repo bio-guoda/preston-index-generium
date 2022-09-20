@@ -2,7 +2,7 @@
 #
 #
 set -xe
-# build corpus
+
 function track_corpus {
   curl --silent -L "https://archive.org/download/IndexGenerium/IndexGenerium_files.xml"\
   | grep -oP '[a-z/]*_data.tar.gz'\
@@ -11,8 +11,7 @@ function track_corpus {
 }
 
 function align_mammal_names {
- preston ls\
-  | grep hash\
+  grep hash\
   | grep mammalia\
   | preston grep -l tsv ".*"\
   | grep "#value"\
@@ -21,10 +20,10 @@ function align_mammal_names {
   | sed 's/^/\t/g'\
   | nomer append --include-header itis\
   | gzip\
-  > pubs-with-taxonnames.tsv.gz
+  > pubs-mammalia.tsv.gz
 }
 
-#track_corpus
-align_mammal_names
+track_corpus\
+ | align_mammal_names
 
 
